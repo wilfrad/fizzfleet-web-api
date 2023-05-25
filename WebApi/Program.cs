@@ -1,4 +1,3 @@
-using Service.Data;
 using WebApi.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);

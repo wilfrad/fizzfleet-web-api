@@ -15,10 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\" />
     <Folder Include="Configuration\" />
+    <Folder Include="Data\Models\" />
     <Folder Include="InfraStructure\Dto\Resource\" />
-    <Folder Include="InfraStructure\Interfaces\" />
     <Folder Include="Testing\Mocks\" />
     <Folder Include="Testing\UnitTests\" />
   </ItemGroup>
