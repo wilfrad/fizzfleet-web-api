@@ -19,11 +19,7 @@ public partial class Empleado
 
     public string Telefono { get; set; } = null!;
 
-    public int FkCargo { get; set; }
-
     public int FkHorario { get; set; }
-
-    public virtual TipoCargo FkCargoNavigation { get; set; } = null!;
 
     public virtual Horario FkHorarioNavigation { get; set; } = null!;
 

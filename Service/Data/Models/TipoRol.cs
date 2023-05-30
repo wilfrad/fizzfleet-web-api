@@ -11,7 +11,5 @@ public partial class TipoRol
 
     public string Siglas { get; set; } = null!;
 
-    public int Propietario { get; set; }
-
     public virtual ICollection<Usuario> Usuario { get; } = new List<Usuario>();
 }

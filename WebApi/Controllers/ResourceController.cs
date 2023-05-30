@@ -1,22 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.InfraStructure.Implement;
 
 namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     public class ResourceController : Controller
     {
-        [Route("image/{id}")]
+        private ImageResourceAppService _resources = new();
+        [Route("image/{filename}")]
         [HttpGet]
-        public async Task<IActionResult> GetImage([FromQuery] int id)
+        public IActionResult GetImage([FromQuery] string fileName)
         {
-            return Ok();
-        }
-
-        [Route("document/{id}")]
-        [HttpGet]
-        public async Task<IActionResult> GetDocument([FromQuery] int id)
-        {
-            return Ok();
+            return File(_resources.Get(fileName), _resources.fileType);
         }
     }
 }

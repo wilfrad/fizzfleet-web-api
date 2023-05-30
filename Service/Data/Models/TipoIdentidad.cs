@@ -11,7 +11,7 @@ public partial class TipoIdentidad
 
     public string Siglas { get; set; } = null!;
 
-    public string? Descripcion { get; set; }
+    public string Descripcion { get; set; } = null!;
 
     public bool? Estado { get; set; }
 

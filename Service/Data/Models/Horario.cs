@@ -7,9 +7,9 @@ public partial class Horario
 {
     public int Id { get; set; }
 
-    public TimeSpan HoraEntrada { get; set; }
+    public string HoraEntrada { get; set; } = null!;
 
-    public TimeSpan HoraSalida { get; set; }
+    public string HoraSalida { get; set; } = null!;
 
     public decimal Salario { get; set; }
 

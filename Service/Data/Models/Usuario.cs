@@ -13,7 +13,9 @@ public partial class Usuario
 
     public int FkRol { get; set; }
 
-    public bool Activo { get; set; }
+    public bool? Activo { get; set; }
+
+    public int? IdPropietario { get; set; }
 
     public virtual TipoRol FkRolNavigation { get; set; } = null!;
 

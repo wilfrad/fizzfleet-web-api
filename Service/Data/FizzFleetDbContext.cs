@@ -86,8 +86,6 @@ public partial class FizzFleetDbContext : DbContext
 
     public virtual DbSet<TarjetaBancaria> TarjetaBancaria { get; set; }
 
-    public virtual DbSet<TipoCargo> TipoCargo { get; set; }
-
     public virtual DbSet<TipoIdentidad> TipoIdentidad { get; set; }
 
     public virtual DbSet<TipoRol> TipoRol { get; set; }
@@ -195,8 +193,7 @@ public partial class FizzFleetDbContext : DbContext
 
         modelBuilder.Entity<Departamento>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.Nombre).HasMaxLength(100);
+            entity.Property(e => e.Nombre).HasMaxLength(150);
 
             entity.HasOne(d => d.FkPaisNavigation).WithMany(p => p.Departamento)
                 .HasForeignKey(d => d.FkPais)
@@ -223,11 +220,6 @@ public partial class FizzFleetDbContext : DbContext
                 .IsFixedLength();
             entity.Property(e => e.NumeroIdentidad).HasMaxLength(20);
             entity.Property(e => e.Telefono).HasMaxLength(20);
-
-            entity.HasOne(d => d.FkCargoNavigation).WithMany(p => p.Empleado)
-                .HasForeignKey(d => d.FkCargo)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Empleado_TipoCargo");
 
             entity.HasOne(d => d.FkHorarioNavigation).WithMany(p => p.Empleado)
                 .HasForeignKey(d => d.FkHorario)
@@ -258,8 +250,8 @@ public partial class FizzFleetDbContext : DbContext
 
         modelBuilder.Entity<Horario>(entity =>
         {
-            entity.Property(e => e.HoraEntrada).HasPrecision(1);
-            entity.Property(e => e.HoraSalida).HasPrecision(1);
+            entity.Property(e => e.HoraEntrada).HasMaxLength(50);
+            entity.Property(e => e.HoraSalida).HasMaxLength(50);
             entity.Property(e => e.Salario).HasColumnType("decimal(18, 2)");
         });
 
@@ -278,7 +270,6 @@ public partial class FizzFleetDbContext : DbContext
 
         modelBuilder.Entity<Marca>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Nombre).HasMaxLength(100);
 
             entity.HasOne(d => d.FkProveedorNavigation).WithMany(p => p.Marca)
@@ -345,7 +336,7 @@ public partial class FizzFleetDbContext : DbContext
             entity.Property(e => e.Nacionalidad).HasMaxLength(100);
             entity.Property(e => e.Nombre).HasMaxLength(200);
             entity.Property(e => e.Siglas).HasMaxLength(10);
-            entity.Property(e => e.ZonaHoraria).HasMaxLength(10);
+            entity.Property(e => e.ZonaHoraria).HasMaxLength(20);
         });
 
         modelBuilder.Entity<Pedido>(entity =>
@@ -529,16 +520,11 @@ public partial class FizzFleetDbContext : DbContext
                 .HasConstraintName("FK_Sesión_Usuario");
         });
 
-        modelBuilder.Entity<TipoCargo>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_TipoCargo_1");
-
-            entity.Property(e => e.Cargo).HasMaxLength(100);
-        });
-
         modelBuilder.Entity<TipoIdentidad>(entity =>
         {
-            entity.Property(e => e.Estado).HasDefaultValueSql("((0))");
+            entity.Property(e => e.Estado)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.Siglas).HasMaxLength(10);
             entity.Property(e => e.Tipo).HasMaxLength(100);
         });
@@ -551,6 +537,9 @@ public partial class FizzFleetDbContext : DbContext
 
         modelBuilder.Entity<Usuario>(entity =>
         {
+            entity.Property(e => e.Activo)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.Usuario1).HasColumnName("Usuario");
 
             entity.HasOne(d => d.FkRolNavigation).WithMany(p => p.Usuario)
