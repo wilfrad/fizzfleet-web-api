@@ -1,4 +1,5 @@
 ﻿using Service.Data;
+using Service.InfraStructure.Dto.Resource;
 using Service.InfraStructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -8,18 +9,27 @@ using System.Threading.Tasks;
 
 namespace Service.InfraStructure.Implement
 {
-    public class ImageResourceAppService : IResourceAppService
+    public class ImageResourceAppService : IResourceAppService<ImageDto>
     {
         private readonly string _rootPath = "./../../db-data/images";
-        public readonly string fileType = "image/png";
+        public readonly string fileType = "Image/png";
 
-        public byte[] Get(string name)
+        public ImageDto Get(ImageDto inputImage)
         {
-            var filePath = Path.Combine(_rootPath, name);
-            return File.ReadAllBytes(filePath);
+            string cover = Path.Combine(_rootPath, inputImage.fileName + "_cover");
+            string resource = Path.Combine(_rootPath, inputImage.fileName);
+            try
+            {
+                if (File.Exists(cover))
+                {
+                    inputImage.Thumbnail = File.ReadAllBytes(cover);
+                }
+                inputImage.Image = File.ReadAllBytes(resource);
+            } catch (NullReferenceException) { return null; }
+            return inputImage;
         }
 
-        public bool Upload(byte[] resource, bool merge = false)
+        public bool Upload(ImageDto resource, bool merge = false)
         {
             throw new NotImplementedException();
         }

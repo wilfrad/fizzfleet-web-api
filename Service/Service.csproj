@@ -17,7 +17,6 @@
   <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="Data\Models\" />
-    <Folder Include="InfraStructure\Dto\Resource\" />
     <Folder Include="Testing\Mocks\" />
     <Folder Include="Testing\UnitTests\" />
   </ItemGroup>

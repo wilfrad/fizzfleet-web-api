@@ -2,6 +2,7 @@
 using Service.Data;
 using Service.Data.Models;
 using Service.InfraStructure.Dto.Catalog;
+using Service.InfraStructure.Dto.Resource;
 using Service.InfraStructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -21,8 +22,11 @@ namespace Service.InfraStructure.Implement
                             new ProductPostDto()
                             {
                                 PublishId = post.Id,
-                                Cover = post.PublicacionImagen
-                                    .Select(thumbnail => thumbnail.Miniatura).ToString(),
+                                Cover = new ImageDto() 
+                                    {
+                                        fileName = post.PublicacionImagen
+                                            .Select(thumbnail => thumbnail.Miniatura).ToString()
+                                },
                                 Title = post.Titulo,
                                 Price = post.Precio,
                                 Categories = post.PublicacionCategoria
@@ -54,6 +58,5 @@ namespace Service.InfraStructure.Implement
         {
             throw new NotImplementedException();
         }
-
     }
 }

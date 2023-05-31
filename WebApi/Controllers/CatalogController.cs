@@ -14,31 +14,21 @@ namespace WebApi.Controllers
             new ProductPostDto()
             {
                 PublishId = 1,
-                Cover = "aaaaa",
+                Cover = null,
                 Title = "title",
                 Price = 20_000,
                 Categories = new string[] {"a", "b", "c", "d"}
-            },
-            new ProductPostDto()
-            {
-                PublishId = 2,
-                Cover = "aaaaa",
-                Title = "title",
-                Price = 20_000,
-                Categories = new string[] {"a", "b", "c", "d"}
-
-            },
-            new ProductPostDto()
-            {
-                PublishId = 3,
-                Cover = "aaaaa",
-                Title = "title",
-                Price = 20_000,
-                Categories = new string[] {"a", "b", "c", "d"}
-
             }
         };
-        private ImageResourceAppService _resources = new();
+        private CatalogAppService _service = new();
+
+        [Route("{offset}-{limit}")]
+        [HttpGet]
+        public IActionResult GetCatalog
+            ([FromQuery] int offSet, [FromQuery] int limit)
+        {
+            return Ok(_service.Get(offSet, limit));
+        }
 
         [HttpGet]
         public IActionResult GetCatalog()
@@ -46,17 +36,9 @@ namespace WebApi.Controllers
             return Ok(posts);
         }
 
-        [Route("{offset}-{limit}-{filters}")]
-        [HttpGet]
-        public async Task<ActionResult<List<ProductPostDto>>> GetCatalog
-            ([FromQuery] int offSet, [FromQuery] int limit, [FromQuery] string[] filters)
-        {
-            return Ok(posts);
-        }
-
         [Route("{id}")]
         [HttpGet]
-        public async Task<IActionResult> GetPublished([FromQuery] int id)
+        public IActionResult GetPublished([FromQuery] int id)
         {
             return Ok(posts[id]);
         }

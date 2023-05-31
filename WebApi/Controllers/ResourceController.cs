@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Service.InfraStructure.Dto.Resource;
 using Service.InfraStructure.Implement;
 
 namespace WebApi.Controllers
@@ -6,12 +7,13 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class ResourceController : Controller
     {
-        private ImageResourceAppService _resources = new();
         [Route("image/{filename}")]
         [HttpGet]
         public IActionResult GetImage([FromQuery] string fileName)
         {
-            return File(_resources.Get(fileName), _resources.fileType);
+            ImageResourceAppService service = new();
+            ImageDto image = new ImageDto() { fileName = fileName };
+            return File(service.Get(image).Image, service.fileType);
         }
     }
 }
