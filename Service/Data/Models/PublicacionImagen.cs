@@ -7,7 +7,7 @@ public partial class PublicacionImagen
 {
     public int Id { get; set; }
 
-    public string Miniatura { get; set; } = null!;
+    public string? Miniatura { get; set; }
 
     public string ImagenCompleta { get; set; } = null!;
 

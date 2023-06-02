@@ -16,16 +16,16 @@ namespace Service.InfraStructure.Implement
 
         public ImageDto Get(ImageDto inputImage)
         {
-            string cover = Path.Combine(_rootPath, inputImage.fileName + "_cover");
-            string resource = Path.Combine(_rootPath, inputImage.fileName);
+            string coverPath = Path.Combine(_rootPath, inputImage.fileName + "_cover.png");
+            string filePath = Path.Combine(_rootPath, inputImage.fileName + ".png");
             try
             {
-                if (File.Exists(cover))
+                if (File.Exists(coverPath))
                 {
-                    inputImage.Thumbnail = File.ReadAllBytes(cover);
+                    inputImage.Thumbnail = File.ReadAllBytes(coverPath);
                 }
-                inputImage.Image = File.ReadAllBytes(resource);
-            } catch (NullReferenceException) { return null; }
+                inputImage.Image = File.ReadAllBytes(filePath);
+            } catch (Exception e) { return inputImage; }
             return inputImage;
         }
 

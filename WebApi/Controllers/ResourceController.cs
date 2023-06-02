@@ -13,7 +13,11 @@ namespace WebApi.Controllers
         {
             ImageResourceAppService service = new();
             ImageDto image = new ImageDto() { fileName = fileName };
-            return File(service.Get(image).Image, service.fileType);
+            var result = service.Get(image);
+
+            if (result.Image is not null) return File(service.Get(image).Image, service.fileType);
+
+            return NotFound();
         }
     }
 }

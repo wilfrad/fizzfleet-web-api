@@ -27,7 +27,10 @@ namespace WebApi.Controllers
         public IActionResult GetCatalog
             ([FromQuery] int offSet, [FromQuery] int limit)
         {
-            return Ok(_service.Get(offSet, limit));
+            var result = _service.Get(offSet, limit);
+            if (result is not null) return Ok(result);
+
+            return NotFound();
         }
 
         [HttpGet]

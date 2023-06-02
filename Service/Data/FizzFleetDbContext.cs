@@ -124,8 +124,6 @@ public partial class FizzFleetDbContext : DbContext
 
         modelBuilder.Entity<CategoriaProducto>(entity =>
         {
-            entity.Property(e => e.Id).ValueGeneratedNever();
-
             entity.HasOne(d => d.FkCategoriaNavigation).WithMany(p => p.CategoriaProducto)
                 .HasForeignKey(d => d.FkCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -426,7 +424,9 @@ public partial class FizzFleetDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK_Publicación");
 
-            entity.Property(e => e.Descripcion).HasMaxLength(300);
+            entity.Property(e => e.Activo)
+                .IsRequired()
+                .HasDefaultValueSql("((1))");
             entity.Property(e => e.FechaModificacion).HasColumnType("datetime");
             entity.Property(e => e.FechaPublicacion).HasColumnType("date");
             entity.Property(e => e.Precio).HasColumnType("decimal(18, 2)");

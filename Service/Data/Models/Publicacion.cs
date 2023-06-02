@@ -11,7 +11,7 @@ public partial class Publicacion
 
     public DateTime FechaPublicacion { get; set; }
 
-    public bool Activo { get; set; }
+    public bool? Activo { get; set; }
 
     public decimal Precio { get; set; }
 

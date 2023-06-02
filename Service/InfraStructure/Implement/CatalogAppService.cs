@@ -18,14 +18,18 @@ namespace Service.InfraStructure.Implement
 
         private List<ProductPostDto> BuildPosts(IQueryable<Publicacion> result)
         {
-            List<ProductPostDto> posts = result.Select(post =>
+            List<ProductPostDto> posts = new();
+            try
+            {
+                posts = result.Select(post =>
                             new ProductPostDto()
                             {
                                 PublishId = post.Id,
-                                Cover = new ImageDto() 
-                                    {
-                                        fileName = post.PublicacionImagen
-                                            .Select(thumbnail => thumbnail.Miniatura).ToString()
+                                Cover = new ImageDto()
+                                {
+                                    fileName = post.PublicacionImagen
+                                    .Where(cover => cover.FkPublicacion == post.Id && cover.Principal)
+                                    .Select(cover => cover.ImagenCompleta).Single()
                                 },
                                 Title = post.Titulo,
                                 Price = post.Precio,
@@ -35,6 +39,8 @@ namespace Service.InfraStructure.Implement
                                     .ToArray()
                             }
                         ).ToList();
+            } catch (NullReferenceException nre) { }
+
             return posts;
         }
 
